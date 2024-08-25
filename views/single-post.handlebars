@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      <p>
+        <a href="/api/posts/{{id}}" class="text-decoration-none"><strong
+          >{{post.title}}</strong></a>
+        posted by
+        {{post.user.username}}
+        on
+        {{formatDate post.createdAt}}</p>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        {{post.body}}
+      </p>
+    </div>
+
+  </div>
+</div>
+
+  <div class="">
+    <div class="d-flex flex-column justify-content-center align-items-center mt-4">
+        <h2 class="">COMMENTS</h2>
+        <button class="btn btn-success w-25" id="add-comment">Add Comment</button>
+
+        <div id="comment-box" class="d-none">
+            <form class="d-flex flex-column mt-5 bg-primary rounded-5" style="padding: 20px;" id="comment-form">
+                <label for="commentInput">Comment:</label>
+                <textarea name="commentInput" id="comment" rows="5" cols="50"></textarea>
+
+                <button data-post-id="{{post.id}}" class="btn btn-success mt-2 rounded w-50 align-self-center" id="comment-submit-btn">Submit</button>
+            </form>
+        </div>
+
+
+    </div>
+        {{#each post.comments}}
+        {{> comment-card}}
+    {{/each}}
+  </div>
+
+
+  <script src="/js/single-post.js"></script>
