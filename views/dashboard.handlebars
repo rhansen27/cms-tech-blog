@@ -1,0 +1,66 @@
+<div id="dashboard-container" class="container mt-5 d-flex flex-column">
+
+  <h1>Your Posts:</h1>
+  <div id="post-container">
+    {{#each cleanedPosts}}
+      <div
+        data-id="{{this.id}}"
+        class="btn btn-secondary w-100 mt-3 post-header-btn d-flex flex-row justify-content-center"
+      ><strong
+          data-id="{{this.id}}"
+          class="align-self-center w-100"
+        >{{this.title}}</strong>
+        <div class="d-flex flex-row align-items-center justify-content-center">
+          <span class="align-self-center pe-1">Delete</span>
+          <button
+            data-delete="{{this.id}}"
+            class="btn btn-danger align-self-end pl-2"
+          >X</button>
+        </div>
+      </div>
+
+    {{/each}}
+  </div>
+
+  <div id="editor" data-action="new" class="d-flex flex-column mt-5">
+    <form
+      id="new-form"
+      class="d-flex flex-column bg-primary w-75 align-self-center rounded-3 d-none"
+      style="padding: 30px; height: 350px;"
+    >
+      <label for="title">Post Title:</label>
+      <input type="text" name="title" />
+
+      <label for="body">Post Content:</label>
+      <textarea name="body" cols="20" rows="20"></textarea>
+
+      <button class="btn btn-success w-25 align-self-center">Submit</button>
+    </form>
+
+    <form
+      id="edit-form"
+      data-id=""
+      class="d-flex flex-column bg-primary w-75 align-self-center rounded-3 d-none"
+      style="padding: 30px; height: 350px;"
+    >
+      <label for="title">Edit Title:</label>
+      <input type="text" name="title" id="editTitleInput" />
+
+      <label for="body">Edit Content:</label>
+      <textarea
+        name="body"
+        cols="20"
+        rows="20"
+        id="editContentInput"
+      ></textarea>
+
+      <button class="btn btn-success w-25 align-self-center">Submit</button>
+    </form>
+
+  </div>
+
+  <button class="btn btn-success align-self-center mt-5" id="newpost-btn">NEW
+    POST</button>
+</div>
+
+<script src="/js/dashboard.js"></script>
