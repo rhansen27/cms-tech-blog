@@ -40,3 +40,18 @@ const handleSubmit = async (e) => {
     });
   }
 };
+
+const changeLoginType = async (e) => {
+  e.preventDefault();
+
+  if (e.target.text === "Sign up instead") {
+    loginBtn.innerHTML = "Signup";
+    e.target.innerHTML = "Login";
+  } else if (e.target.text === "Login") {
+    loginBtn.innerHTML = "Login";
+    e.target.innerHTML = "Signup";
+  }
+};
+
+form.addEventListener("submit", handleSubmit);
+signupBtn.addEventListener("click", changeLoginType);
