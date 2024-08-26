@@ -1,0 +1,9 @@
+:root {
+  --bg-primary: purple;
+  --bg-secondary: rgb(64, 64, 64);
+  --text-primary: white;
+}
+
+.p-\[50\] {
+  padding: 50px;
+}
