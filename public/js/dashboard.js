@@ -71,7 +71,6 @@ const handlePost = async (e) => {
         editForm.dataset.id = data.id;
       });
   } else if (e.target.dataset.delete) {
-    //hiding the editor on delete
     if (!editForm.classList.contains("d-none")) {
       editForm.classList.add("d-none");
     }

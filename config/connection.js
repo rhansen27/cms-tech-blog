@@ -4,19 +4,18 @@ require("dotenv").config();
 let sequelize;
 
 if (process.env.DBURL) {
-  (sequelize = new Sequelize(process.env.DBURL)),
-    {
-      dialect: "sequelize",
-      dialectOptions: {
-        ssl: {
-          require: false,
-          rejectUnauthorized: false,
-        },
+  sequelize = new Sequelize(process.env.DBURL, {
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: false,
+        rejectUnauthorized: false,
       },
-    };
-  console.log("DB here", process.env.DBURL);
+    },
+  });
+  console.log("here", process.env.DBURL);
 } else {
-  console.log("DB is located here");
+  console.log("there");
   sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
@@ -27,5 +26,4 @@ if (process.env.DBURL) {
     }
   );
 }
-
 module.exports = sequelize;

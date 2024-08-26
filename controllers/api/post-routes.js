@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const { Post, User, Comment } = require("../../models");
 const auth = require("../../utils/middleware/auth");
+// route from: /api/posts
 
 router.get("/", async (req, res) => {
-  const rawPostData = await Post.findAll({
+  const rawPosts = await Post.findAll({
     attributes: ["title", "body", ["id", "postID"]],
     include: [
       { model: User, attributes: ["username"] },
@@ -15,19 +16,16 @@ router.get("/", async (req, res) => {
     ],
   });
 
-  const posts = rawPostData.map((post) => post.get({ plain: true }));
+  const posts = rawPosts.map((post) => post.get({ plain: true }));
 
   res.send(posts);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   let post = await Post.findByPk(req.params.id, {
     include: [
       { model: User, attributes: ["username"] },
-      {
-        model: Comment,
-        include: [{ model: User, attributes: ["username"] }],
-      },
+      { model: Comment, include: [{ model: User, attributes: ["username"] }] },
     ],
   });
 
@@ -42,11 +40,12 @@ router.post("/", auth, async (req, res) => {
 
   console.log(newPost);
   await Post.create(newPost);
+
   res.status(201).end();
 });
 
 router.put("/:id", auth, async (req, res) => {
-  let post = await Post.findByPk(req.params.post_id);
+  let post = await Post.findByPk(req.body.post_id);
   post = post.get({ plain: true });
 
   if (req.session.user_id !== post.user_id) {
@@ -68,7 +67,7 @@ router.put("/:id", auth, async (req, res) => {
   );
 
   console.log(post);
-  req.status(200).end();
+  res.status(200).end();
 });
 
 router.delete("/:id", async (req, res) => {
@@ -80,9 +79,13 @@ router.delete("/:id", async (req, res) => {
     return;
   }
 
-  const destroyedPost = await Post.destroy({ where: { id: req.params.id } });
+  const destroyed = await Post.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
 
-  if (destroyedPost === 1) {
+  if (destroyed === 1) {
     res.status(204).end();
   }
 });

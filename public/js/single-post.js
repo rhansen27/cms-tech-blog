@@ -15,7 +15,7 @@ const handleSubmit = async (e) => {
     body: e.target.elements.comment.value,
     post_id: submitBtn.dataset.postId,
   };
-  await fetch("/api/comments", {
+  await fetch("/api/comment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

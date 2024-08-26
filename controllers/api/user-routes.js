@@ -10,25 +10,25 @@ router.get("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const userData = await User.findOne({
-      where: { usernmame: req.body.username },
+      where: { username: req.body.username },
     });
 
     if (!userData) {
-      res.status(400).json({ message: "Incorrect username." });
+      res.status(400).json({ message: "Invalid Username" });
       return;
     }
 
-    const validPassword = await userData.checkPasword(req.body.password);
+    const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res.status(400).json({ message: "Incorrect password." });
+      res.status(400).json({ message: "Invalid Password" });
       return;
     }
 
     req.session.loggedIn = true;
     req.session.user_id = userData.id;
     res.status(200).json({
-      message: "You are now logged in",
+      message: "You have been logged in successfully",
     });
   } catch (err) {
     res.status(400).json(err);
@@ -52,15 +52,15 @@ router.post("/signup", async (req, res) => {
     });
 
     if (userData) {
-      res.status(400).json({ message: "Username already exists." });
+      res.status(400).json({ message: "User already exists." });
       return;
     }
 
-    const newUser = await User.create(req.body);
+    const user = await User.create(req.body);
 
-    req.session.user_id = newUser.id;
+    req.session.user_id = user.id;
     req.session.loggedIn = true;
-    req.status(201).end();
+    res.status(201).end();
   } catch (err) {
     res.status(400).json(err);
   }

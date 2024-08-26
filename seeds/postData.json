@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Where are my posts?",
+    "body": "This is a test post",
+    "user_id": 2
+  },
+  {
+    "title": "Databases are fun",
+    "body": "I cant wait to work with MongoDB",
+    "user_id": 1
+  }
+]

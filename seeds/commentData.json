@@ -1,0 +1,12 @@
+[
+  {
+    "post_id": 1,
+    "body": "I dont know what is going on but I am excited to learn about databases!",
+    "user_id": 1
+  },
+  {
+    "post_id": 2,
+    "body": "I think this is going to be a good class. I am excited to learn about databases!",
+    "user_id": 2
+  }
+]

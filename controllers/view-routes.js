@@ -11,28 +11,20 @@ router.get("/", async (req, res) => {
     include: [{ model: User, attributes: ["username"] }, { model: Comment }],
   });
 
-  const preppedPosts = posts.map((post) => post.get({ plain: true }));
-  console.log(preppedPosts);
-
+  const cleanedPosts = posts.map((post) => post.get({ plain: true }));
+  console.log(cleanedPosts);
   res.render("home", {
     loggedIn: req.session.loggedIn,
-    preppedPosts,
+    cleanedPosts,
   });
 });
 
-router.get("/post/:id", async (req, res) => {
-  const post = await Post.findAll({
-    include: [{ model: User, attributes: ["username"] }, { model: Comment }],
-  });
-
-  post = post.get({ plain: true });
-
-  res.render("single-post", {
-    loggedIn: req.session.loggedIn,
-    post,
-  });
+//login page
+router.get("/login", async (req, res) => {
+  res.render("sign-in");
 });
 
+//dashboard page
 router.get("/dashboard", auth, async (req, res) => {
   const posts = await Post.findAll({
     where: {
@@ -40,11 +32,32 @@ router.get("/dashboard", auth, async (req, res) => {
     },
   });
 
-  const preppedPosts = posts.map((post) => post.get({ plain: true }));
+  const cleanedPosts = posts.map((post) => post.get({ plain: true }));
 
   res.render("dashboard", {
     loggedIn: req.session.loggedIn,
-    preppedPosts,
+    cleanedPosts,
+  });
+});
+
+//create post page
+
+router.get("/post/:id", auth, async (req, res) => {
+  let post = await Post.findByPk(req.params.id, {
+    include: [
+      { model: User, attributes: ["username"] },
+      {
+        model: Comment,
+        include: [{ model: User, attributes: ["username"] }],
+      },
+    ],
+  });
+
+  post = post.get({ plain: true });
+
+  res.render("single-post", {
+    loggedIn: req.session.loggedIn,
+    post,
   });
 });
 
